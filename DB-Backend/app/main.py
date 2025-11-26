@@ -1,0 +1,44 @@
+from fastapi import FastAPI
+
+from .database import Base, engine
+from .routers import (
+    activities,
+    auth_routes,
+    cities,
+    expenses,
+    itineraries,
+    places,
+    reviews,
+    users,
+    weather,
+)
+
+app = FastAPI(title="Travel Planner API")
+
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# IMPORTANT: Create all tables in Neon
+Base.metadata.create_all(bind=engine)
+
+app.include_router(auth_routes.router)
+app.include_router(users.router)
+app.include_router(itineraries.router)
+app.include_router(cities.router)
+app.include_router(places.router)
+app.include_router(activities.router)
+app.include_router(reviews.router)
+app.include_router(expenses.router)
+app.include_router(weather.router)

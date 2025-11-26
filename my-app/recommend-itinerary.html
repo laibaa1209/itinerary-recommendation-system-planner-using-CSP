@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recommend Itinerary – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-nav">
+        <div class="top-nav-left">
+          <div class="top-nav-logo"></div>
+          <span class="top-nav-title">Itinerary Planner</span>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+          <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+          <a href="recommend-itinerary.html" class="nav-link">Recommend Itinerary</a>
+          <a href="profile.html" class="nav-link">View Profile</a>
+          <a href="index.html" class="nav-link">Logout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-header">
+          <h1 class="page-title">Recommend an itinerary</h1>
+          <p class="page-subtitle">
+            Answer a few quick questions and we’ll suggest a trip. You don’t need an account for this.
+          </p>
+        </section>
+
+        <section class="pastel-card">
+          <form class="form active">
+            <div class="field">
+              <label>Have you used this planner before?</label>
+              <div class="inline-form-row">
+                <button type="button" class="primary-pill secondary full-width">
+                  I am a new user
+                </button>
+                <button type="button" class="primary-pill full-width">
+                  I am an existing user
+                </button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="pref-region">Where in Pakistan?</label>
+              <input
+                id="pref-region"
+                type="text"
+                placeholder="e.g. Northern areas, Karachi, Lahore"
+              />
+            </div>
+
+            <div class="inline-form-row">
+              <div class="field">
+                <label for="pref-days">Number of days</label>
+                <input id="pref-days" type="number" min="1" placeholder="3" />
+              </div>
+              <div class="field">
+                <label for="pref-budget">Approx budget (PKR)</label>
+                <input id="pref-budget" type="number" min="0" placeholder="50000" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="pref-style">Travel style</label>
+              <input
+                id="pref-style"
+                type="text"
+                placeholder="Relaxed, adventure, food-focused, cultural..."
+              />
+            </div>
+
+            <button type="submit" class="primary-pill full-width">
+              Get a sample recommended itinerary (placeholder)
+            </button>
+          </form>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Top‑rated cities from other travelers</h2>
+          <div id="top-cities" class="pastel-card">
+            <p class="card-meta">Loading recommended cities…</p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="recommend-itinerary.js"></script>
+  </body>
+</html>
+
+

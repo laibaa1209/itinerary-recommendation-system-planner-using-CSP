@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Itinerary Details – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-nav">
+        <div class="top-nav-left">
+          <div class="top-nav-logo"></div>
+          <span class="top-nav-title">Itinerary Planner</span>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+          <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+          <a href="recommend-itinerary.html" class="nav-link">Recommend Itinerary</a>
+          <a href="profile.html" class="nav-link">View Profile</a>
+          <a href="index.html" class="nav-link">Logout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-header">
+          <h1 id="detail-title" class="page-title">Your itinerary</h1>
+          <p id="detail-subtitle" class="page-subtitle">
+            Dates and budget will appear here after you build an itinerary.
+          </p>
+          <button id="auto-plan-btn" class="primary-pill" style="margin-top:0.8rem">
+            Auto‑plan this trip
+          </button>
+          <p class="error" id="auto-plan-error"></p>
+        </section>
+
+        <section class="two-column">
+          <div class="section">
+            <h2 class="section-title">Itinerary plan</h2>
+            <div class="pastel-card">
+              <div id="detail-timeline" class="timeline">
+                <!-- Activities will be filled later from backend; placeholder now -->
+                <div class="timeline-item">
+                  <div class="timeline-item-header">
+                    <span>Day 1</span>
+                    <span>09:00</span>
+                  </div>
+                  <p class="timeline-item-notes">
+                    Your first activity will appear here once we connect to the backend.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="section">
+            <div class="pastel-card" style="margin-bottom: 1rem">
+              <h2 class="section-title">Cities</h2>
+              <ul>
+                <li>Example: Lahore</li>
+                <li>Example: Hunza</li>
+              </ul>
+            </div>
+
+            <div class="pastel-card">
+              <h2 class="section-title">Budget &amp; expenses</h2>
+              <p class="card-meta">
+                Track how much you are spending against your total budget.
+              </p>
+              <p class="card-meta"><strong>Total budget:</strong> <span id="exp-budget">—</span></p>
+              <p class="card-meta"><strong>Total spent:</strong> <span id="exp-spent">—</span></p>
+              <p class="card-meta"><strong>Remaining:</strong> <span id="exp-remaining">—</span></p>
+
+              <hr style="border:none;border-top:1px solid rgba(232,180,184,0.4);margin:0.8rem 0" />
+
+              <form id="expense-form" class="form active">
+                <div class="inline-form-row">
+                  <div class="field">
+                    <label for="expense-amount">Amount (PKR)</label>
+                    <input id="expense-amount" type="number" min="0" step="0.01" required />
+                  </div>
+                  <div class="field">
+                    <label for="expense-category">Category</label>
+                    <input id="expense-category" type="text" placeholder="Transport, food..." />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="expense-description">Description</label>
+                  <input id="expense-description" type="text" placeholder="Optional note" />
+                </div>
+                <button type="submit" class="primary-pill full-width">
+                  Add expense
+                </button>
+                <p class="error" id="expense-error"></p>
+              </form>
+
+              <ul id="expense-list" class="side-list" style="margin-top:0.6rem"></ul>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" style="margin-top:2.2rem">
+          <div class="pastel-card">
+            <h2 class="section-title">Place reviews</h2>
+            <p class="card-meta">
+              Reviews are grouped by each place in your itinerary. This will use live data once
+              the itinerary is loaded from the backend.
+            </p>
+            <div id="places-reviews"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="itinerary-details.js"></script>
+    <script src="itinerary-expenses-reviews.js"></script>
+  </body>
+</html>

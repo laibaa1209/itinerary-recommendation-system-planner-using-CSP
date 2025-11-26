@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-nav">
+        <div class="top-nav-left">
+          <div class="top-nav-logo"></div>
+          <span class="top-nav-title">Itinerary Planner</span>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+          <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+          <a href="recommend-itinerary.html" class="nav-link">Recommend Itinerary</a>
+          <a href="profile.html" class="nav-link">View Profile</a>
+          <a href="index.html" class="nav-link">Logout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-header">
+          <h1 class="page-title">My Itineraries</h1>
+          <p class="page-subtitle">
+            Overview of your saved trips.
+          </p>
+        </section>
+
+        <section class="card-grid">
+          <article class="pastel-card">
+            <h2 class="card-title">Weekend in Lahore</h2>
+            <p class="card-meta">12/12/2025 – 14/12/2025</p>
+            <span class="chip">Budget: $400</span>
+          </article>
+
+          <article class="pastel-card">
+            <h2 class="card-title">Summer in Istanbul</h2>
+            <p class="card-meta">03/07/2025 – 11/07/2025</p>
+            <span class="chip">Budget: $1,200</span>
+          </article>
+
+          <article class="pastel-card">
+            <h2 class="card-title">Friends trip – Northern Areas</h2>
+            <p class="card-meta">To be decided</p>
+            <span class="chip">Draft</span>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>
+
+

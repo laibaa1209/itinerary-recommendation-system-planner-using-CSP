@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Itinerary – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-nav">
+        <div class="top-nav-left">
+          <div class="top-nav-logo"></div>
+          <span class="top-nav-title">Itinerary Planner</span>
+        </div>
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+          <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+          <a href="recommend-itinerary.html" class="nav-link">Recommend Itinerary</a>
+          <a href="profile.html" class="nav-link">View Profile</a>
+          <a href="index.html" class="nav-link">Logout</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="page-header">
+          <h1 class="page-title">Create New Itinerary</h1>
+          <p class="page-subtitle">
+            Define the basics of your trip. Select cities and set your budget.
+          </p>
+        </section>
+
+        <section class="pastel-card">
+          <form id="builder-form" class="form active">
+            <div class="field">
+              <label for="trip-title">Trip title</label>
+              <input
+                id="trip-title"
+                type="text"
+                placeholder="e.g. Summer trip to Paris"
+                required
+              />
+            </div>
+
+            <div class="inline-form-row">
+              <div class="field">
+                <label for="start-date">Start date</label>
+                <input id="start-date" type="date" required />
+              </div>
+              <div class="field">
+                <label for="end-date">End date</label>
+                <input id="end-date" type="date" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="budget">Total budget (PKR)</label>
+              <input
+                id="budget"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Optional"
+              />
+            </div>
+
+            <div class="field">
+              <label for="cities-select">Select cities (optional, can add later)</label>
+              <select id="cities-select" multiple style="min-height:100px;padding:0.5rem;border-radius:0.9rem;border:1px solid rgba(232,180,184,0.7);background:rgba(255,255,255,0.9);width:100%">
+                <option value="">Loading cities...</option>
+              </select>
+              <p style="font-size:0.75rem;color:#8d656a;margin-top:0.3rem">Hold Ctrl/Cmd to select multiple cities</p>
+            </div>
+
+            <button type="submit" class="primary-pill full-width">
+              Create itinerary
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="itinerary-builder.js"></script>
+  </body>
+</html>
