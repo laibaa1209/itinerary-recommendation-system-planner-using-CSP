@@ -1,4 +1,4 @@
-# Project Structure & Endpoint Verification
+# Project Structure
 
 ## 📁 Folder Structure
 
@@ -48,7 +48,7 @@ itinerary-recommendation-system-planner-using-CSP/
     └── styles.css                 # Global styles
 ```
 
-## 🔌 API Endpoints Mapping
+##  API Endpoints Mapping
 
 ### Authentication
 - `POST /auth/login` → `auth.js` (login form)
@@ -84,8 +84,6 @@ itinerary-recommendation-system-planner-using-CSP/
 
 ### Cities
 - `GET /cities` → `itinerary-builder.js` (load for dropdown)
-
-## ✅ Verification Checklist
 
 ### Backend
 - [x] All routers imported in `main.py`
@@ -128,11 +126,6 @@ cd my-app
 npm install
 npm run dev
 ```
-
-### Access
-- Frontend: http://localhost:3000
-- Backend API: http://127.0.0.1:8000
-- API Docs: http://127.0.0.1:8000/docs
 
 ## 📝 Notes
 
