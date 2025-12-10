@@ -1,22 +1,15 @@
-const API_BASE = "http://127.0.0.1:8000";
-
-function getToken() {
-  return localStorage.getItem("access_token") || null;
-}
-
-// Check auth on page load
-const token = getToken();
-if (!token) {
-  alert("Please sign in to view your itineraries.");
-  window.location.href = "auth.html?mode=login";
-}
+// API_BASE and auth helpers are provided by auth-utils.js
 
 const cardGrid = document.querySelector(".card-grid");
 const pageSubtitle = document.querySelector(".page-subtitle");
 
 async function loadItineraries() {
   const token = getToken();
-  if (!token) return;
+  if (!token) {
+    alert("Please sign in to view your itineraries.");
+    window.location.href = "auth.html?mode=login";
+    return;
+  }
 
   try {
     const res = await fetch(`${API_BASE}/itineraries`, {
@@ -86,4 +79,3 @@ async function loadItineraries() {
 }
 
 loadItineraries();
-

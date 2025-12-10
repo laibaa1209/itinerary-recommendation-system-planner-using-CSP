@@ -1,8 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
-
-function getToken() {
-  return localStorage.getItem("access_token") || null;
-}
+// API_BASE and auth helpers are provided by auth-utils.js
 
 function decodeUserIdFromToken(token) {
   try {
@@ -21,113 +17,13 @@ function decodeUserIdFromToken(token) {
   }
 }
 
+// Expense logic has been moved to expenses.js
+
 // We store current itinerary id in localStorage (set this when you wire builder to backend)
 const currentItineraryId = parseInt(
   localStorage.getItem("current_itinerary_id") || "0",
   10
 );
-
-const expenseBudgetEl = document.getElementById("exp-budget");
-const expenseSpentEl = document.getElementById("exp-spent");
-const expenseRemainingEl = document.getElementById("exp-remaining");
-const expenseListEl = document.getElementById("expense-list");
-const expenseErrorEl = document.getElementById("expense-error");
-const expenseForm = document.getElementById("expense-form");
-
-async function fetchExpenses() {
-  if (!currentItineraryId || !expenseListEl) return;
-  const token = getToken();
-  if (!token) {
-    expenseErrorEl.textContent = "Sign in to see and manage expenses.";
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      `${API_BASE}/expenses?itinerary_id=${currentItineraryId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!res.ok) throw new Error("Failed to load expenses");
-    const data = await res.json();
-
-    let total = 0;
-    expenseListEl.innerHTML = "";
-    data.forEach((exp) => {
-      total += exp.amount;
-      const li = document.createElement("li");
-      li.textContent = `${exp.category || "General"} – PKR ${exp.amount} ${
-        exp.description ? "– " + exp.description : ""
-      }`;
-      expenseListEl.appendChild(li);
-    });
-
-    const storedItinerary = localStorage.getItem("current_itinerary");
-    let budget = null;
-    if (storedItinerary) {
-      try {
-        budget = JSON.parse(storedItinerary).total_budget || null;
-      } catch {
-        budget = null;
-      }
-    }
-
-    expenseBudgetEl.textContent = budget ? `PKR ${budget}` : "Not set";
-    expenseSpentEl.textContent = `PKR ${total.toFixed(0)}`;
-    expenseRemainingEl.textContent = budget
-      ? `PKR ${(budget - total).toFixed(0)}`
-      : "—";
-  } catch (err) {
-    expenseErrorEl.textContent = err.message;
-  }
-}
-
-if (expenseForm && currentItineraryId) {
-  expenseForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    expenseErrorEl.textContent = "";
-    const token = getToken();
-    if (!token) {
-      expenseErrorEl.textContent = "Please sign in to add expenses.";
-      return;
-    }
-
-    const amount = parseFloat(
-      document.getElementById("expense-amount").value || "0"
-    );
-    const category = document.getElementById("expense-category").value.trim();
-    const description = document
-      .getElementById("expense-description")
-      .value.trim();
-
-    try {
-      const res = await fetch(`${API_BASE}/expenses`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          itinerary_id: currentItineraryId,
-          amount,
-          category: category || null,
-          description: description || null,
-        }),
-      });
-      if (!res.ok) throw new Error("Failed to add expense");
-      expenseForm.reset();
-      fetchExpenses();
-    } catch (err) {
-      expenseErrorEl.textContent = err.message;
-    }
-  });
-
-  // initial load
-  fetchExpenses();
-}
 
 // -------- Reviews per place, grouped by itinerary activities --------
 

@@ -1,7 +1,8 @@
 from typing import List
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from .. import models, schemas
 from ..csp_planner import PlanningRequest, build_itinerary_plan, recommend_cities_by_reviews
@@ -46,7 +47,7 @@ def list_itineraries(
     query = db.query(models.Itinerary)
     if current_user.user_type != "admin":
         query = query.filter(models.Itinerary.user_id == current_user.user_id)
-    return query.order_by(models.Itinerary.start_date).all()
+    return query.options(joinedload(models.Itinerary.cities)).order_by(models.Itinerary.start_date).all()
 
 
 @router.get("/{itinerary_id}", response_model=schemas.ItineraryRead)
@@ -55,7 +56,9 @@ def get_itinerary(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    itinerary = _get_itinerary_or_404(itinerary_id, db)
+    itinerary = db.query(models.Itinerary).options(joinedload(models.Itinerary.cities)).get(itinerary_id)
+    if not itinerary:
+        raise HTTPException(status_code=404, detail="Itinerary not found")
     _enforce_owner_or_admin(itinerary, current_user)
     return itinerary
 
@@ -154,16 +157,81 @@ def plan_itinerary(
 
     # clear existing auto activities (for simplicity we just append now)
     for p in planned:
+        # Convert string times to python time objects
+        s_time = datetime.strptime(p.start_time, "%H:%M").time()
+        e_time = datetime.strptime(p.end_time, "%H:%M").time()
+        
         activity = models.Activity(
             itinerary_id=itinerary.itinerary_id,
             place_id=p.place_id,
             day_no=p.day_no,
+            start_time=s_time,
+            end_time=e_time,
             notes=p.notes,
+            estimated_cost=p.cost,
         )
         db.add(activity)
 
     db.commit()
     return {"detail": f"Planned {len(planned)} activities", "count": len(planned)}
+
+
+@router.post("/{itinerary_id}/plan-custom", status_code=201)
+def plan_itinerary_custom(
+    itinerary_id: int,
+    payload: schemas.CustomPlanRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    """
+    Plan itinerary with specific selected activities and time scheduling.
+    """
+    from datetime import datetime
+    
+    itinerary = _get_itinerary_or_404(itinerary_id, db)
+    _enforce_owner_or_admin(itinerary, current_user)
+
+    if not itinerary.cities:
+        raise HTTPException(status_code=400, detail="Add at least one city first")
+
+    req = PlanningRequest(
+        user_id=current_user.user_id,
+        city_ids=[c.city_id for c in itinerary.cities],
+        start_date=itinerary.start_date,
+        end_date=itinerary.end_date,
+        selected_place_ids=payload.place_ids,
+        daily_start_time=payload.daily_start_time,
+        daily_budget=payload.daily_budget,
+        max_places_per_day=payload.max_places_per_day,
+    )
+
+    planned = build_itinerary_plan(db, req)
+
+    # Clear existing activities? Or append? 
+    # Usually planning replaces the schedule, so let's clear for this itinerary
+    # But maybe user wants to keep manual ones? 
+    # For now, let's just append but maybe we should delete old ones to avoid duplicates
+    # Let's delete old auto-generated ones or just all for this itinerary if re-planning
+    db.query(models.Activity).filter(models.Activity.itinerary_id == itinerary_id).delete()
+
+    for p in planned:
+        # Convert string times to python time objects
+        s_time = datetime.strptime(p.start_time, "%H:%M").time()
+        e_time = datetime.strptime(p.end_time, "%H:%M").time()
+        
+        activity = models.Activity(
+            itinerary_id=itinerary.itinerary_id,
+            place_id=p.place_id,
+            day_no=p.day_no,
+            start_time=s_time,
+            end_time=e_time,
+            notes=p.notes,
+            estimated_cost=p.cost,
+        )
+        db.add(activity)
+
+    db.commit()
+    return {"detail": f"Planned {len(planned)} activities", "count": len(planned), "activities": planned}
 
 
 @router.get("/recommend/top-cities", response_model=list[schemas.CityRead])

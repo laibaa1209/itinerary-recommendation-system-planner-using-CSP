@@ -21,8 +21,13 @@ class UserBase(BaseModel):
     user_type: Optional[str] = "traveler"
 
 
-class UserCreate(UserBase):
+class UserCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
     password: str
+    contact_info: str | None = None
+    user_type: str | None = None
 
 
 class UserUpdate(BaseModel):
@@ -33,9 +38,18 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
 
 
-class UserRead(ORMBase, UserBase):
+class UserRead(BaseModel):
     user_id: int
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: EmailStr
+    contact_info: Optional[str] = None
+    user_type: Optional[str] = None
     created_at: datetime
+
+    class Config:
+        from_attributes = True   # REQUIRED for ORM → Pydantic
+
 
 
 # ------------------- Itineraries ------------------- #
@@ -63,6 +77,13 @@ class ItineraryRead(ORMBase, ItineraryBase):
     created_at: datetime
     updated_at: datetime
     cities: List["CityRead"] = []
+
+
+class CustomPlanRequest(BaseModel):
+    place_ids: List[int]
+    daily_start_time: str = "09:00"
+    daily_budget: Optional[float] = None
+    max_places_per_day: int = 3
 
 
 # ------------------- Cities ------------------- #
@@ -93,6 +114,7 @@ class PlaceBase(BaseModel):
     description: Optional[str] = None
     category: Optional[str] = None
     location: Optional[dict] = None
+    duration: Optional[float] = 2.0
 
 
 class PlaceCreate(PlaceBase):
@@ -105,6 +127,7 @@ class PlaceUpdate(BaseModel):
     description: Optional[str] = None
     category: Optional[str] = None
     location: Optional[dict] = None
+    duration: Optional[float] = None
 
 
 class PlaceRead(ORMBase, PlaceBase):
@@ -117,7 +140,9 @@ class ActivityBase(BaseModel):
     place_id: Optional[int] = None
     day_no: Optional[int] = None
     start_time: Optional[time] = None
+    end_time: Optional[time] = None
     notes: Optional[str] = None
+    estimated_cost: Optional[float] = 0.0
 
 
 class ActivityCreate(ActivityBase):
@@ -128,6 +153,7 @@ class ActivityUpdate(BaseModel):
     place_id: Optional[int] = None
     day_no: Optional[int] = None
     start_time: Optional[time] = None
+    end_time: Optional[time] = None
     notes: Optional[str] = None
 
 
@@ -156,6 +182,7 @@ class ReviewUpdate(BaseModel):
 
 class ReviewRead(ORMBase, ReviewBase):
     review_id: int
+    place: Optional["PlaceRead"] = None
 
 
 # ------------------- Weather ------------------- #

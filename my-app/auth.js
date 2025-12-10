@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000"; // adjust later if backend moves
+const API_BASE = "http://127.0.0.1:8000";
 
 // Tab switching between login / register + heading text
 const tabs = document.querySelectorAll(".tab");
@@ -57,7 +57,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      throw new Error(data.detail || "Failed to sign in");
+      throw new Error(data.detail || `Failed to sign in: ${res.status} ${res.statusText}`);
     }
 
     const data = await res.json();
@@ -65,7 +65,13 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     // After login go to dashboard
     window.location.href = "dashboard.html";
   } catch (err) {
-    errorEl.textContent = err.message;
+    console.error("Login error:", err);
+    const errorEl = document.getElementById("login-error");
+    if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+      errorEl.textContent = "Cannot connect to server. Make sure the backend is running on http://127.0.0.1:8000";
+    } else {
+      errorEl.textContent = err.message;
+    }
   }
 });
 
@@ -79,10 +85,15 @@ document
     const last_name = document.getElementById("last-name").value.trim();
     const email = document.getElementById("register-email").value.trim();
     const contact_info = document.getElementById("contact-info").value.trim();
+    const user_type = document.getElementById("user-type").value;
     const password = document.getElementById("register-password").value;
-    const user_type = document.getElementById("user-type").value || "traveler";
     const errorEl = document.getElementById("register-error");
     errorEl.textContent = "";
+
+    if (!first_name || !last_name || !email || !password) {
+      errorEl.textContent = "Please fill in all required fields";
+      return;
+    }
 
     try {
       const res = await fetch(`${API_BASE}/auth/register`, {
@@ -100,14 +111,19 @@ document
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.detail || "Failed to register");
+        throw new Error(data.detail || `Failed to register: ${res.status} ${res.statusText}`);
       }
 
       // After successful signup, switch to login tab
       activateTab("login");
       alert("Account created! Please sign in.");
     } catch (err) {
-      errorEl.textContent = err.message;
+      console.error("Registration error:", err);
+      if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+        errorEl.textContent = "Cannot connect to server. Make sure the backend is running on http://127.0.0.1:8000";
+      } else {
+        errorEl.textContent = err.message;
+      }
     }
   });
 

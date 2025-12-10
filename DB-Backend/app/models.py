@@ -13,6 +13,7 @@ itinerary_cities = Table(
 
 class User(Base):
     __tablename__ = "users"
+
     user_id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(128))
     last_name = Column(String(128))
@@ -23,7 +24,9 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     itineraries = relationship("Itinerary", back_populates="owner", cascade="all, delete")
-    reviews = relationship("Review", back_populates="author")
+    reviews = relationship("Review", back_populates="author", cascade="all, delete")
+
+
 
 class Itinerary(Base):
     __tablename__ = "itineraries"
@@ -60,6 +63,7 @@ class Place(Base):
     description = Column(Text)
     category = Column(String(100))
     location = Column(JSON)
+    duration = Column(Numeric(4, 2), default=2.0)  # Duration in hours
 
     city = relationship("City", back_populates="places")
     activities = relationship("Activity", back_populates="place")
@@ -72,7 +76,9 @@ class Activity(Base):
     place_id = Column(Integer, ForeignKey("places.place_id", ondelete="SET NULL"))
     day_no = Column(Integer)
     start_time = Column(Time)
+    end_time = Column(Time)
     notes = Column(Text)
+    estimated_cost = Column(Numeric(10, 2), default=0.0)
 
     itinerary = relationship("Itinerary", back_populates="activities")
     place = relationship("Place", back_populates="activities")

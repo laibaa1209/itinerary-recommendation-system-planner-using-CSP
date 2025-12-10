@@ -1,25 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
-
-function getToken() {
-  return localStorage.getItem("access_token") || null;
-}
-
-function decodeUserIdFromToken(token) {
-  try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
-    const payload = JSON.parse(jsonPayload);
-    return parseInt(payload.sub, 10);
-  } catch {
-    return null;
-  }
-}
+// API_BASE and auth helpers are provided by auth-utils.js
 
 // Check auth on page load
 const token = getToken();

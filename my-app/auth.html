@@ -98,6 +98,14 @@
               />
             </div>
             <div class="field">
+              <label for="user-type">User Type</label>
+              <select id="user-type" required>
+                <option value="traveler">Traveler</option>
+                <option value="tourist">Tourist</option>
+                <option value="inhabitant">Inhabitant</option>
+              </select>
+            </div>
+            <div class="field">
               <label for="register-password">Password</label>
               <input
                 id="register-password"
@@ -106,13 +114,6 @@
                 placeholder="••••••••"
                 required
               />
-            </div>
-            <div class="field">
-              <label for="user-type">User Type</label>
-              <select id="user-type" required style="width:100%;padding:0.7rem 0.9rem;border-radius:0.9rem;border:1px solid rgba(232,180,184,0.7);background:rgba(255,255,255,0.9);color:#4a3437;font-size:0.9rem;outline:none">
-                <option value="traveler" selected>Traveler</option>
-                <option value="admin">Admin</option>
-              </select>
             </div>
             <p class="error" id="register-error"></p>
             <button type="submit" class="primary-pill full-width">

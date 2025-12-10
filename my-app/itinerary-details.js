@@ -1,15 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
-
-function getToken() {
-  return localStorage.getItem("access_token") || null;
-}
-
-// Check auth on page load
-const token = getToken();
-if (!token) {
-  alert("Please sign in to view itinerary details.");
-  window.location.href = "auth.html?mode=login";
-}
+// API_BASE and auth helpers are provided by auth-utils.js
 
 const currentItineraryId = parseInt(
   localStorage.getItem("current_itinerary_id") || "0",
@@ -55,8 +44,10 @@ async function loadItineraryDetails() {
     localStorage.setItem("current_itinerary_id", itinerary.itinerary_id.toString());
 
     // Update title and subtitle
+    // Update title and subtitle
     if (titleEl) {
-      titleEl.textContent = itinerary.title || "Your itinerary";
+      const cityNames = (itinerary.cities || []).map(c => c.name).join(", ");
+      titleEl.textContent = cityNames ? `Trip to ${cityNames}` : (itinerary.title || "Your itinerary");
     }
 
     if (subtitleEl) {
@@ -72,19 +63,8 @@ async function loadItineraryDetails() {
       subtitleEl.textContent = parts.join(" • ") || "Dates and budget will appear here.";
     }
 
-    // Update cities list
-    if (citiesListEl && itinerary.cities) {
-      citiesListEl.innerHTML = "";
-      if (itinerary.cities.length === 0) {
-        citiesListEl.innerHTML = "<li>No cities added yet</li>";
-      } else {
-        itinerary.cities.forEach((city) => {
-          const li = document.createElement("li");
-          li.textContent = city.name;
-          citiesListEl.appendChild(li);
-        });
-      }
-    }
+    // Cities list removed from UI, so no need to populate it.
+    // We will use the cities data for title.
 
     // Load activities for timeline
     await loadActivities();
@@ -138,27 +118,57 @@ async function loadActivities() {
     Object.keys(byDay)
       .sort((a, b) => parseInt(a) - parseInt(b))
       .forEach((day) => {
+        // Add Day Header
+        const dayHeader = document.createElement("div");
+        dayHeader.className = "timeline-day-header";
+        dayHeader.style.marginTop = "1.5rem";
+        dayHeader.style.marginBottom = "0.8rem";
+        dayHeader.style.fontWeight = "bold";
+        dayHeader.style.fontSize = "1.1rem";
+        dayHeader.style.color = "#b0606a";
+        dayHeader.style.borderBottom = "2px solid rgba(232,180,184,0.3)";
+        dayHeader.style.paddingBottom = "0.3rem";
+        dayHeader.textContent = `Day ${day}`;
+        timelineEl.appendChild(dayHeader);
+
         byDay[day].forEach((act) => {
           const item = document.createElement("div");
           item.className = "timeline-item";
-          const timeStr = act.start_time
-            ? new Date(`2000-01-01T${act.start_time}`).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "";
+
+          let timeDisplay = "";
+          try {
+            if (act.start_time) {
+              // Handle "HH:MM:SS" or "HH:MM"
+              const timeStr = act.start_time.length > 5 ? act.start_time : act.start_time + ":00";
+              // Use a dummy date to parse time
+              const start = new Date(`2000-01-01T${timeStr}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+              timeDisplay = start;
+
+              if (act.end_time) {
+                const endStr = act.end_time.length > 5 ? act.end_time : act.end_time + ":00";
+                const end = new Date(`2000-01-01T${endStr}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                timeDisplay += ` – ${end}`;
+              }
+            }
+          } catch (e) {
+            console.warn("Error parsing time:", e);
+            timeDisplay = act.start_time || "";
+            return;
+          }
+
           item.innerHTML = `
-            <div class="timeline-item-header">
-              <span>Day ${day}</span>
-              ${timeStr ? `<span>${timeStr}</span>` : ""}
+            <div class="timeline-item-header" style="align-items:center;">
+              <span style="font-weight:600; font-size:1rem;">${act.notes || "Activity"}</span>
+              ${timeDisplay ? `<span style="font-size:0.85rem; color:#824c54; background:rgba(232,180,184,0.25); padding:0.2rem 0.6rem; border-radius:99px; font-weight:500;">${timeDisplay}</span>` : ""}
             </div>
-            <p class="timeline-item-notes">${act.notes || "No description"}</p>
           `;
           timelineEl.appendChild(item);
         });
       });
+
   } catch (err) {
     console.error("Failed to load activities:", err);
+    timelineEl.innerHTML = `<p class="error">Failed to load activities: ${err.message}</p>`;
   }
 }
 
@@ -201,10 +211,10 @@ if (autoPlanBtn) {
 
       const result = await res.json();
       autoPlanError.textContent = `Success! Created ${result.count || 0} activities.`;
-      
+
       // Reload activities to show them
       await loadActivities();
-      
+
       // Also reload place reviews since new activities may have places
       if (window.initPlaceReviewsForItinerary) {
         window.initPlaceReviewsForItinerary();

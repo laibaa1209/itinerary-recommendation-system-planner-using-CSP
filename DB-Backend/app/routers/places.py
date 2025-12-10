@@ -26,8 +26,11 @@ def create_place(
 
 
 @router.get("/", response_model=List[schemas.PlaceRead])
-def list_places(db: Session = Depends(get_db)):
-    return db.query(models.Place).order_by(models.Place.place_name).all()
+def list_places(city_id: int | None = None, db: Session = Depends(get_db)):
+    query = db.query(models.Place)
+    if city_id:
+        query = query.filter(models.Place.city_id == city_id)
+    return query.order_by(models.Place.place_name).all()
 
 
 @router.get("/{place_id}", response_model=schemas.PlaceRead)

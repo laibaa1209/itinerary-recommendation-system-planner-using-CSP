@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from .. import models, schemas
 from ..auth import get_current_user, get_db
@@ -50,7 +50,7 @@ def list_reviews(
         query = query.filter(models.Review.place_id == place_id)
     elif current_user.user_type != "admin":
         query = query.filter(models.Review.user_id == current_user.user_id)
-    return query.order_by(models.Review.review_date.desc()).all()
+    return query.options(joinedload(models.Review.place)).order_by(models.Review.review_date.desc()).all()
 
 
 @router.put("/{review_id}", response_model=schemas.ReviewRead)

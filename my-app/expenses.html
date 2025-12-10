@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget & Expenses – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="top-nav">
+            <div class="top-nav-left">
+                <div class="top-nav-logo"></div>
+                <span class="top-nav-title">Itinerary Planner</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+                <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+                <a href="expenses.html" class="nav-link active">Budget & Expenses</a>
+                <a href="recommend-places.html" class="nav-link">Recommend Places & Activities</a>
+                <a href="city-reviews.html" class="nav-link">City Reviews</a>
+                <a href="profile.html" class="nav-link">View Profile</a>
+                <a href="index.html" class="nav-link">Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="page-header">
+                <h1 class="page-title">Trip Budget & Expenses</h1>
+                <p id="expense-subtitle" class="page-subtitle">
+                    Manage your budget and track spending for your trip.
+                </p>
+            </section>
+
+            <section class="two-column">
+                <div class="section">
+                    <h2 class="section-title">Budget Overview</h2>
+                    <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="pastel-card">
+                            <h3 class="card-title">Total Budget</h3>
+                            <p class="card-meta" style="font-size: 1.5rem; font-weight: bold; color: #4a3437;"
+                                id="total-budget">PKR 0</p>
+                        </div>
+                        <div class="pastel-card">
+                            <h3 class="card-title">Remaining</h3>
+                            <p class="card-meta" style="font-size: 1.5rem; font-weight: bold; color: #4a3437;"
+                                id="remaining-budget">PKR 0</p>
+                        </div>
+                        <div class="pastel-card">
+                            <h3 class="card-title">Planned Activities Cost</h3>
+                            <p class="card-meta" style="font-size: 1.2rem;" id="activity-cost">PKR 0</p>
+                            <p class="card-meta" style="font-size: 0.8rem;">(Estimated based on plan)</p>
+                        </div>
+                        <div class="pastel-card">
+                            <h3 class="card-title">Manual Expenses</h3>
+                            <p class="card-meta" style="font-size: 1.2rem;" id="manual-cost">PKR 0</p>
+                            <p class="card-meta" style="font-size: 0.8rem;">(Added by you)</p>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: 2rem;">Add New Expense</h2>
+                    <div class="pastel-card">
+                        <form id="expense-form" class="form active">
+                            <div class="inline-form-row">
+                                <div class="field">
+                                    <label for="expense-amount">Amount (PKR)</label>
+                                    <input id="expense-amount" type="number" min="0" step="0.01" required />
+                                </div>
+                                <div class="field">
+                                    <label for="expense-category">Category</label>
+                                    <input id="expense-category" type="text"
+                                        placeholder="Transport, Food, Shopping..." />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="expense-description">Description</label>
+                                <input id="expense-description" type="text"
+                                    placeholder="Optional note (e.g. Taxi to hotel)" />
+                            </div>
+                            <button type="submit" class="primary-pill full-width">
+                                Add Expense
+                            </button>
+                            <p class="error" id="expense-error"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <aside class="section">
+                    <div class="pastel-card">
+                        <h2 class="section-title">Planned Activities Cost</h2>
+                        <p class="card-meta" style="margin-bottom: 0.8rem;">Estimated costs for your planned activities:
+                        </p>
+                        <ul id="activity-cost-list" class="side-list" style="margin-top:0.6rem">
+                            <!-- Activity costs will be loaded here -->
+                        </ul>
+                        <hr style="border:none;border-top:1px solid rgba(232,180,184,0.4);margin:1rem 0" />
+                        <h2 class="section-title">Manual Expenses</h2>
+                        <ul id="expense-list" class="side-list" style="margin-top:0.6rem">
+                            <!-- Expenses will be loaded here -->
+                        </ul>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="expenses.js"></script>
+</body>
+
+</html>

@@ -1,77 +1,80 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile – Itinerary Planner</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <header class="top-nav">
-        <div class="top-nav-left">
-          <div class="top-nav-logo"></div>
-          <span class="top-nav-title">Itinerary Planner</span>
-        </div>
-        <nav class="nav-links">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
-          <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
-          <a href="recommend-itinerary.html" class="nav-link">Recommend Itinerary</a>
-          <a href="profile.html" class="nav-link">View Profile</a>
-          <a href="index.html" class="nav-link">Logout</a>
-        </nav>
-      </header>
 
-      <main>
-        <section class="page-header">
-          <h1 class="page-title">Your profile</h1>
-          <p class="page-subtitle">
-            Basic details and a place to upload your travel photos.
-          </p>
-        </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile – Itinerary Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-        <section class="two-column">
-          <div class="section">
-            <div class="pastel-card">
-              <form class="form active">
-                <div class="field">
-                  <label for="profile-name">Full name</label>
-                  <input id="profile-name" type="text" placeholder="Your name" />
-                </div>
-                <div class="field">
-                  <label for="profile-email">Email</label>
-                  <input id="profile-email" type="email" placeholder="you@example.com" />
-                </div>
-                <div class="field">
-                  <label for="profile-phone">Contact</label>
-                  <input id="profile-phone" type="text" placeholder="+92 ..." />
-                </div>
-                <button type="submit" class="primary-pill full-width">
-                  Save profile (placeholder)
-                </button>
-              </form>
-            </div>
-          </div>
+<body>
+  <div class="app-shell">
+    <header class="top-nav">
+      <div class="top-nav-left">
+        <div class="top-nav-logo"></div>
+        <span class="top-nav-title">Itinerary Planner</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+        <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+        <a href="expenses.html" class="nav-link">Budget & Expenses</a>
+        <a href="recommend-places.html" class="nav-link">Recommend Places & Activities</a>
+        <a href="city-reviews.html" class="nav-link">City Reviews</a>
+        <a href="profile.html" class="nav-link active">View Profile</a>
+        <a href="index.html" class="nav-link">Logout</a>
+      </nav>
+    </header>
 
-          <aside class="section">
-            <div class="pastel-card">
-              <h2 class="section-title">Upload pictures</h2>
+    <main>
+      <section class="page-header">
+        <h1 class="page-title">Your profile</h1>
+        <p class="page-subtitle">
+          Basic details and a place to upload your travel photos.
+        </p>
+      </section>
+
+      <section class="two-column">
+        <div class="section">
+          <div class="pastel-card">
+            <form class="form active">
               <div class="field">
-                <label for="profile-photos">Trip photos</label>
-                <input id="profile-photos" type="file" multiple accept="image/*" />
+                <label for="profile-name">Full name</label>
+                <input id="profile-name" type="text" placeholder="Your name" />
               </div>
-              <p class="card-meta">
-                You can upload photos from your trips. Later we can store these in the backend.
-              </p>
+              <div class="field">
+                <label for="profile-email">Email</label>
+                <input id="profile-email" type="email" placeholder="you@example.com" />
+              </div>
+              <div class="field">
+                <label for="profile-phone">Contact</label>
+                <input id="profile-phone" type="text" placeholder="+92 ..." />
+              </div>
+              <button type="submit" class="primary-pill full-width">
+                Save profile (placeholder)
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <aside class="section">
+          <div class="pastel-card">
+            <h2 class="section-title">Upload pictures</h2>
+            <div class="field">
+              <label for="profile-photos">Trip photos</label>
+              <input id="profile-photos" type="file" multiple accept="image/*" />
             </div>
-          </aside>
-        </section>
-      </main>
-    </div>
-    <script src="auth-utils.js"></script>
-    <script src="profile.js"></script>
-  </body>
+            <p class="card-meta">
+              You can upload photos from your trips. Later we can store these in the backend.
+            </p>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+  <script src="auth-utils.js"></script>
+  <script src="profile.js"></script>
+</body>
+
 </html>
-
-

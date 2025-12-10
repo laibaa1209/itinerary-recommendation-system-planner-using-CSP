@@ -17,7 +17,7 @@ if (newBtn) {
 
 if (guestRecommendBtn) {
   guestRecommendBtn.addEventListener("click", () => {
-    window.location.href = "recommend-itinerary.html";
+    window.location.href = "recommend-places.html";
   });
 }
 

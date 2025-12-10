@@ -3,7 +3,12 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from .config import settings
 
 # IMPORTANT for Neon: ?sslmode=require must be in your URL
-engine = create_engine(settings.database_url, pool_pre_ping=True)
+try:
+    engine = create_engine(settings.database_url, pool_pre_ping=True)
+    print(f"Database connection configured: {settings.database_url[:50]}...")
+except Exception as e:
+    print(f"ERROR: Failed to create database engine: {e}")
+    raise
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -12,3 +17,6 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+print("Database module loaded successfully")
+

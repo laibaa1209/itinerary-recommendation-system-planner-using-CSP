@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recommend Places & Activities – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="top-nav">
+            <div class="top-nav-left">
+                <div class="top-nav-logo"></div>
+                <span class="top-nav-title">Itinerary Planner</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+                <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+                <a href="expenses.html" class="nav-link">Budget & Expenses</a>
+                <a href="recommend-places.html" class="nav-link active">Recommend Places & Activities</a>
+                <a href="city-reviews.html" class="nav-link">City Reviews</a>
+                <a href="profile.html" class="nav-link">View Profile</a>
+                <a href="index.html" class="nav-link">Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="page-header">
+                <h1 class="page-title">Discover Places & Activities</h1>
+                <p class="page-subtitle">
+                    Get personalized recommendations based on your interests and travel history.
+                </p>
+            </section>
+
+            <section class="pastel-card">
+                <form id="recommendation-form" class="form active">
+                    <div class="field">
+                        <label>Are you a new user or existing user?</label>
+                        <div class="inline-form-row">
+                            <button type="button" id="new-user-btn" class="primary-pill full-width">
+                                I am a new user
+                            </button>
+                            <button type="button" id="existing-user-btn" class="primary-pill secondary full-width">
+                                I am an existing user
+                            </button>
+                        </div>
+                        <input type="hidden" id="user-type" value="new" />
+                    </div>
+
+                    <div class="field">
+                        <label>Select your interests (categories):</label>
+                        <div id="categories-container"
+                            style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:0.8rem; margin-top:0.8rem;">
+                            <!-- Categories will be loaded here -->
+                        </div>
+                        <p class="error" id="categories-error"></p>
+                    </div>
+
+                    <button type="submit" class="primary-pill full-width">
+                        Get Recommendations
+                    </button>
+                    <p class="error" id="recommendation-error"></p>
+                </form>
+            </section>
+
+            <section id="recommendations-section" class="section" style="display:none; margin-top:2rem;">
+                <h2 class="section-title">Recommended Places & Activities</h2>
+                <div id="recommendations-container">
+                    <!-- Recommendations will be loaded here -->
+                </div>
+            </section>
+
+            <section class="section" style="margin-top:2rem;">
+                <h2 class="section-title">Top-Rated Cities from Travelers</h2>
+                <div id="top-cities" class="card-grid">
+                    <p class="card-meta">Loading top-rated cities...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="recommend-places.js"></script>
+</body>
+
+</html>

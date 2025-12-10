@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>City Reviews – Itinerary Planner</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="top-nav">
+            <div class="top-nav-left">
+                <div class="top-nav-logo"></div>
+                <span class="top-nav-title">Itinerary Planner</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="itinerary-builder.html" class="nav-link">Itinerary Builder</a>
+                <a href="itinerary-details.html" class="nav-link">Itinerary Details</a>
+                <a href="expenses.html" class="nav-link">Budget & Expenses</a>
+                <a href="recommend-places.html" class="nav-link">Recommend Places & Activities</a>
+                <a href="city-reviews.html" class="nav-link active">City Reviews</a>
+                <a href="profile.html" class="nav-link">View Profile</a>
+                <a href="index.html" class="nav-link">Logout</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="page-header">
+                <h1 class="page-title">Rate Cities You've Visited</h1>
+                <p class="page-subtitle">
+                    Share your experience by rating cities and places you've been to.
+                </p>
+            </section>
+
+            <section class="two-column">
+                <div class="section">
+                    <div class="pastel-card">
+                        <h2 class="section-title">Submit a City Review</h2>
+                        <form id="review-form" class="form active">
+                            <div class="field">
+                                <label for="city-select">Select City</label>
+                                <select id="city-select" required
+                                    style="padding:0.75rem;border-radius:0.9rem;border:1px solid rgba(232,180,184,0.7);background:rgba(255,255,255,0.9);width:100%;font-size:1rem;">
+                                    <option value="">Loading cities...</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="place-select">Select Place (Optional)</label>
+                                <select id="place-select"
+                                    style="padding:0.75rem;border-radius:0.9rem;border:1px solid rgba(232,180,184,0.7);background:rgba(255,255,255,0.9);width:100%;font-size:1rem;">
+                                    <option value="">Select a city first...</option>
+                                </select>
+                                <p style="font-size:0.75rem;color:#8d656a;margin-top:0.3rem">Leave empty to review the
+                                    city itself</p>
+                            </div>
+
+                            <div class="field">
+                                <label>Rating</label>
+                                <div id="star-rating"
+                                    style="display:flex;gap:0.5rem;font-size:2rem;cursor:pointer;margin-top:0.5rem;">
+                                    <span class="star" data-rating="1">☆</span>
+                                    <span class="star" data-rating="2">☆</span>
+                                    <span class="star" data-rating="3">☆</span>
+                                    <span class="star" data-rating="4">☆</span>
+                                    <span class="star" data-rating="5">☆</span>
+                                </div>
+                                <input type="hidden" id="rating-value" required />
+                            </div>
+
+                            <div class="field">
+                                <label for="review-text">Your Review (Optional)</label>
+                                <textarea id="review-text" rows="4"
+                                    placeholder="Share your thoughts about this place..."
+                                    style="padding:0.75rem;border-radius:0.9rem;border:1px solid rgba(232,180,184,0.7);background:rgba(255,255,255,0.9);width:100%;font-family:inherit;resize:vertical;"></textarea>
+                            </div>
+
+                            <button type="submit" class="primary-pill full-width">
+                                Submit Review
+                            </button>
+                            <p class="error" id="review-error"></p>
+                            <p id="review-success" style="color:#7a9b76;margin-top:0.5rem;display:none;"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <aside class="section">
+                    <div class="pastel-card">
+                        <h2 class="section-title">Your Recent Reviews</h2>
+                        <ul id="user-reviews-list" class="side-list" style="margin-top:0.6rem">
+                            <li style="color:#888;font-style:italic;">Loading your reviews...</li>
+                        </ul>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+    <script src="auth-utils.js"></script>
+    <script src="city-reviews.js"></script>
+</body>
+
+</html>
