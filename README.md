@@ -82,7 +82,7 @@ The **itinerary builder** allows users to create detailed travel plans based on 
 - Users select the city, trip dates, number of activities per day, and start time.  
 - The app then displays a list of possible activities in each city.  
 
-![Build Itinerary](https://github.com/user-attachments/assets/2363563d-2e21-4e4c-be5d-a66de3f9b14c)  
+![Build Itinerary](<img width="1889" height="853" alt="image" src="https://github.com/user-attachments/assets/2363563d-2e21-4e4c-be5c-a66de3f9b14c" />)  
 ![Select City & Activities](https://github.com/user-attachments/assets/e27d961c-85c2-46c4-bd7a-0a2829ac4151)
 
 - Activities can also be filtered based on **categories**.  
